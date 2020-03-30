@@ -16,19 +16,19 @@ jobs:
         with:
           version: 12
 
-      - name: test 1 on ${{ matrix.os }}
+      - name: global + global on ${{ matrix.os }}
         if: always()  
         run: sh prisma/1.sh
         
-      - name: test 2 on ${{ matrix.os }}
+      - name: global + local on ${{ matrix.os }}
         if: always()  
         run: sh prisma/2.sh
         
-      - name: test 3 on ${{ matrix.os }}
+      - name: global + npx with empty package.json on ${{ matrix.os }}
         if: always()  
         run: sh prisma/3.sh
         
-      - name: test 4 on ${{ matrix.os }}
+      - name: global + npx with already in package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma/4.sh
         
@@ -61,19 +61,19 @@ jobs:
         with:
           version: 12
 
-      - name: test 1 on ${{ matrix.os }}
+      - name: global + global on ${{ matrix.os }}
         if: always() 
         run: sh prisma2/1.sh
         
-      - name: test 2 on ${{ matrix.os }}
+      - name: global + local on ${{ matrix.os }}
         if: always() 
         run: sh prisma2/2.sh
         
-      - name: test 3 on ${{ matrix.os }}
+      - name: global + npx with empty package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma2/3.sh
         
-      - name: test 4 on ${{ matrix.os }}
+      - name: global + npx with already in package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma2/4.sh
         

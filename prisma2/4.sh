@@ -7,7 +7,7 @@ set DEBUG=*
 npm init -y
 npm install @prisma/cli@alpha
 
-command1="npm install -g prisma2"
+command1="npm install -g prisma2@2.0.0-preview023"
 command2="npx @prisma/cli@alpha"
 
 echo "== $command1 =="
