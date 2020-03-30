@@ -4,12 +4,17 @@ set -eu
 
 set DEBUG=*
 
-echo "== npm install -g prisma =="
-npm install -g prisma
+npm init -y
+
+command1="npm install -g prisma"
+command2="npm install -g @prisma/cli@alpha"
+
+echo "== $command1 =="
+$command1
 echo ""
 echo ""
 echo "======================="
 echo ""
 echo ""
-echo "== npm install -g @prisma/cli@alpha =="
-npm install -g @prisma/cli@alpha
+echo "== $command2 =="
+$command2
