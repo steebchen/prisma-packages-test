@@ -26,3 +26,5 @@ echo ""
 echo ""
 prisma -v
 prisma2 -v
+npx prisma -v
+npx prisma2 -v

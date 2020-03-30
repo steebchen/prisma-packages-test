@@ -25,3 +25,4 @@ echo "======================="
 echo ""
 echo ""
 prisma2 -v
+npx prisma2 -v
