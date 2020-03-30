@@ -25,5 +25,9 @@ echo ""
 echo "======================="
 echo ""
 echo ""
+echo "== prisma2 -v =="
 prisma2 -v
+echo "== prisma -v =="
+npx prisma -v
+echo "== prisma2 -v =="
 npx prisma2 -v
