@@ -24,5 +24,4 @@ echo ""
 echo "======================="
 echo ""
 echo ""
-prisma -v
 prisma2 -v
