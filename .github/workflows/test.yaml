@@ -1,0 +1,35 @@
+
+name: test
+on: push
+jobs:
+
+  os:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: test 1 on ${{ matrix.os }}
+        run: sh 1.sh
+        
+      - name: test 2 on ${{ matrix.os }}
+        run: sh 2.sh
+        
+      - name: test 3 on ${{ matrix.os }}
+        run: sh 3.sh
+        
+      - name: test 4 on ${{ matrix.os }}
+        run: sh 4.sh
+        
+      - name: test 5 on ${{ matrix.os }}
+        run: sh 5.sh
+        
+      - name: test 6 on ${{ matrix.os }}
+        run: sh 6.sh
