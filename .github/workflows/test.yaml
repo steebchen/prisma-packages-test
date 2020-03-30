@@ -17,27 +17,35 @@ jobs:
           version: 12
 
       - name: test 1 on ${{ matrix.os }}
+        if: always()  
         run: sh prisma/1.sh
         
       - name: test 2 on ${{ matrix.os }}
+        if: always()  
         run: sh prisma/2.sh
         
       - name: test 3 on ${{ matrix.os }}
+        if: always()  
         run: sh prisma/3.sh
         
       - name: test 4 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma/4.sh
         
       - name: test 5 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma/5.sh
         
       - name: test 6 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma/6.sh
 
       - name: test 7 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma/7.sh
         
       - name: test 8 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma/8.sh
 
   prisma2:
@@ -54,25 +62,33 @@ jobs:
           version: 12
 
       - name: test 1 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/1.sh
         
       - name: test 2 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/2.sh
         
       - name: test 3 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/3.sh
         
       - name: test 4 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/4.sh
         
       - name: test 5 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/5.sh
         
       - name: test 6 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/6.sh
 
       - name: test 7 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/7.sh
         
       - name: test 8 on ${{ matrix.os }}
+        if: always() 
         run: sh prisma2/8.sh

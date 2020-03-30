@@ -7,7 +7,6 @@ set DEBUG=*
 npm init -y
 npm install @prisma/cli@alpha
 
-
 command1="npm install -g prisma"
 command2="npx @prisma/cli@alpha"
 
