@@ -2,7 +2,7 @@
 
 set -eu
 
-set DEBUG=*
+export DEBUG=*
 
 npm init -y
 
