@@ -8,7 +8,7 @@ npm init -y
 npm install @prisma/cli@alpha
 
 command1="npm install prisma"
-command2="npx -g @prisma/cli@alpha"
+command2="npx @prisma/cli@alpha"
 
 echo "== $command1 =="
 $command1
