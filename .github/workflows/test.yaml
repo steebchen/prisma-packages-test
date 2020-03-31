@@ -3,7 +3,7 @@ name: test
 on: push
 jobs:
 
-  prisma:
+  prisma_1:
     strategy:
       fail-fast: false
       matrix:
@@ -19,31 +19,109 @@ jobs:
       - name: 1 global + global on ${{ matrix.os }}
         if: always()  
         run: sh prisma/1.sh
-        
+
+  prisma_2:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12        
       - name: 2 global + local on ${{ matrix.os }}
         if: always()  
         run: sh prisma/2.sh
-        
+  prisma_§:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 3 global + npx with empty package.json on ${{ matrix.os }}
         if: always()  
         run: sh prisma/3.sh
-        
+  prisma_$:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 4 global + npx with already in package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma/4.sh
-        
+  prisma_5:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 5 local + global on ${{ matrix.os }}
         if: always() 
         run: sh prisma/5.sh
-        
+  prisma_6:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 6 local + local on ${{ matrix.os }}
         if: always() 
         run: sh prisma/6.sh
+  prisma_7:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
 
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 7 local + npx with empty package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma/7.sh
-        
+  prisma_8:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
       - name: 8 local + npx with already in package.json on ${{ matrix.os }}
         if: always() 
         run: sh prisma/8.sh
