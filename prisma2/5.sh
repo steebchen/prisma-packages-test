@@ -20,6 +20,8 @@ echo "======================="
 echo ""
 echo ""
 echo "== $command2 =="
+$command2 || true
+npm uninstall -g prisma2
 $command2
 
 echo ""
