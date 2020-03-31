@@ -5,8 +5,8 @@ set -eu
 export DEBUG=*
 
 npm config get
-npm list depth 0
-npm list -g depth 0
+npm list depth 0 || true
+npm list -g depth 0 || true
 npm init -y
 
 command1="npm install prisma"
@@ -16,6 +16,9 @@ echo "== $command1 =="
 $command1
 echo ""
 echo ""
+echo "======================="
+npm list depth 0 || true
+npm list -g depth 0 || true
 echo "======================="
 echo ""
 echo ""
