@@ -5,6 +5,8 @@ set -eu
 export DEBUG=*
 
 npm config get
+npm list depth 0
+npm list -g depth 0
 npm init -y
 npm install @prisma/cli@alpha
 
