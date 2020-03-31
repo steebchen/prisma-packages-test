@@ -6,10 +6,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest] #, macos-latest, windows-latest]
-        type: ['-g', '']
+        type_from: ['-g', '']
         from:
           - 'prisma2@2.0.0-preview023'
           - 'prisma'
+        type_to: ['-g', '']
         to:
           - '@prisma/cli@2.0.0-alpha.993'
           - '@prisma/cli@2.0.0-alpha.1000'
@@ -23,6 +24,6 @@ jobs:
         with:
           version: 12
 
-      - name: ${{ matrix.combination }} on ${{ matrix.os }}
+      - name: '"npm i ${{ matrix.type_from }} ${{ matrix.from }}" "npm i ${{ matrix.type_to }} ${{ matrix.to }}"'
         if: always()
-        run: sh run.sh "npm i ${{ matrix.type }} ${{ matrix.from }}" "npm i ${{ matrix.type }} ${{ matrix.to }}"
+        run: sh run.sh "npm i ${{ matrix.type_from }} ${{ matrix.from }}" "npm i ${{ matrix.type_to }} ${{ matrix.to }}"
