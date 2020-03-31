@@ -6,8 +6,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest] #, macos-latest, windows-latest]
-        a: ['npm install -g prisma2@2.0.0-preview023']
-        b: ['npm install -g @prisma/cli@2.0.0-alpha.993']
+        type: ['-g', '']
+        combination:
+          - '"prisma2@2.0.0-preview023" "@prisma/cli@2.0.0-alpha.993"'
+          - '"prisma2@2.0.0-preview023" "@prisma/cli@2.0.0-alpha.1000"'
+          - '"prisma" "@prisma/cli@2.0.0-alpha.1000"'
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -17,6 +20,6 @@ jobs:
         with:
           version: 12
 
-      - name: ${{ matrix.a }} -> ${{ matrix.b }} on ${{ matrix.os }}
+      - name: ${{ matrix.combination }} on ${{ matrix.os }}
         if: always()
-        run: sh run.sh "${{ matrix.a }}" "${{ matrix.b }}"
+        run: sh run.sh ${{ matrix.combination }} "${{ matrix.b }}"
