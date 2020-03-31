@@ -4,6 +4,7 @@ set -eu
 
 export DEBUG=*
 
+npm config get
 npm init -y
 
 command1="npm install -g prisma2@2.0.0-preview023"

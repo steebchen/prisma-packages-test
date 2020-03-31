@@ -4,6 +4,7 @@ set -eu
 
 export DEBUG=*
 
+npm config get
 npm init -y
 npm install @prisma/cli@alpha
 
@@ -27,8 +28,8 @@ echo ""
 echo ""
 #echo "== prisma -v =="
 #prisma -v
-echo "== prisma2 -v =="
-prisma2 -v
+#echo "== prisma2 -v =="
+#prisma2 -v
 echo "== npx prisma -v =="
 npx prisma -v
 echo "== npx prisma2 -v =="
