@@ -35,3 +35,9 @@ echo "== npx prisma -v =="
 npx prisma -v
 echo "== npx prisma2 -v =="
 npx prisma2 -v
+
+echo "======================="
+npm uninstall prisma2 || true
+npm uninstall -g prisma2 || true
+npm uninstall @prisma/client || true
+npm uninstall -g @prisma/client || true
