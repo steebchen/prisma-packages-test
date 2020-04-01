@@ -1,7 +1,7 @@
 name: test
 on: push
 jobs:
-  prisma:
+  npm:
     strategy:
       fail-fast: false
       matrix:
@@ -14,7 +14,7 @@ jobs:
           - '@prisma/cli@2.0.0-alpha.993'
           - '@prisma/cli@2.0.0-alpha.1000'
           - '@prisma/cli@2.0.0-beta.1'
-        os: [ubuntu-latest, macos-latest] #, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,3 +27,30 @@ jobs:
       - name: '"npm i ${{ matrix.type_from }} ${{ matrix.from }}" "npm i ${{ matrix.type_to }} ${{ matrix.to }}"'
         if: always()
         run: sh run.sh "npm i ${{ matrix.type_from }} ${{ matrix.from }}" "npm i ${{ matrix.type_to }} ${{ matrix.to }}"
+
+  yarn:
+    strategy:
+      fail-fast: false
+      matrix:
+        type_from: ['global', '']
+        from:
+          - 'prisma2@2.0.0-preview023'
+          - 'prisma'
+        type_to: ['global', '']
+        to:
+          - '@prisma/cli@2.0.0-alpha.993'
+          - '@prisma/cli@2.0.0-alpha.1000'
+          - '@prisma/cli@2.0.0-beta.1'
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+
+      - name: '"yarn ${{ matrix.type_from }} add ${{ matrix.from }}" "yarn ${{ matrix.type_to }} add ${{ matrix.to }}"'
+        if: always()
+        run: sh run.sh "yarn ${{ matrix.type_from }} add ${{ matrix.from }}" "yarn ${{ matrix.type_to }} add ${{ matrix.to }}"
