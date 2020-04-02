@@ -2,7 +2,10 @@
 
 set -eu
 
-docker_image="node"
+node_version="13"
+docker_image="node:$node_version"
+
+echo "node version: $node_version"
 
 success_emoji="✅"
 fail_emoji="❌"
@@ -89,10 +92,18 @@ for scope_from in "${scopes_from[@]}"; do
 						[[ "$expect_to_version" = "$to_version" ]]
 					then
 						has_expectation="true"
-						if [[ "$out" == *"$expect_str"* ]]; then
-							echo "status: $success_emoji"
+
+						if ([[ "$expect_exit" == "$exit_success" ]] && [[ "$expect_exit" == "$code" ]]) || ([[ "$expect_exit" == "$exit_fail" ]] && [[ "$expect_exit" != "$code" ]]); then
+							echo "exit:   $success_emoji"
+
+							if [[ "$out" == *"$expect_str"* ]]; then
+								echo "status: $success_emoji"
+							else
+								echo "status: $fail_emoji"
+								code=1
+							fi
 						else
-							echo "status: $fail_emoji"
+							echo "exit:   $fail_emoji"
 							code=1
 						fi
 					fi
