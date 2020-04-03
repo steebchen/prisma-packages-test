@@ -2,7 +2,7 @@
 
 set -eu
 
-node_version="13"
+node_version="10"
 docker_image="node:$node_version"
 
 echo "node version: $node_version"
@@ -14,6 +14,9 @@ p1="prisma"
 old="prisma2@2.0.0-preview023"
 mid="@prisma/cli@2.0.0-alpha.993"
 latest="@prisma/cli@2.0.0-beta.1"
+
+v_npx_local="npx prisma2"
+v_global="prisma2"
 
 global="-g"
 local=""
@@ -38,10 +41,10 @@ declare -a to_versions=(
 )
 
 declare -a expectations=(
-	"$global;$old;$global;$latest;$exit_fail;$upgrade_error"
-	"$global;$old;$local;$latest;$exit_success;-"
-	"$local;$old;$global;$latest;$exit_success;-"
-	"$local;$old;$local;$latest;$exit_fail;$upgrade_error"
+	"$global;$old;$global;$latest;$exit_fail;$upgrade_error;-;-"
+	"$global;$old;$local;$latest;$exit_success;-;$v_npx_local;$latest"
+	"$local;$old;$global;$latest;$exit_success;-;$v_global;$latest"
+	"$local;$old;$local;$latest;$exit_success;-;$v_npx_local;$latest"
 )
 
 mkdir -p "logs/"
@@ -63,8 +66,16 @@ for scope_from in "${scopes_from[@]}"; do
 				echo "to:     $b"
 				echo "logs:   $log"
 
+				# cutting -d : -f 2 and -d , -f 1 will successfully parse old and new outputs of prisma2 -v
+				version_cmd="
+					(prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/prisma.txt) &&
+					(prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/prisma2.txt) &&
+					(npx prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/npx_prisma.txt) &&
+					(npx prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/npx_prisma2.txt)
+				"
+
 				set +e
-				docker run -it --entrypoint bash "$docker_image" -c "$a > /dev/null && $b" > "$log"
+				docker run -it -v "$(pwd)/out/:/out" --entrypoint bash "$docker_image" -c "mkdir -p /app && cd /app && node -v && npm -v && npm init --yes && $a > /dev/null && $b && $version_cmd" > "$log"
 				code=$?
 				set -e
 				out=$(cat "$log")
@@ -85,6 +96,8 @@ for scope_from in "${scopes_from[@]}"; do
 					expect_to_version="${arr[3]}"
 					expect_exit="${arr[4]}"
 					expect_str="${arr[5]}"
+					expect_cmd="${arr[6]}"
+					expect_cmd_version="${arr[7]}"
 
 					if [[ "$expect_from_scope" = "$scope_from" ]] &&
 						[[ "$expect_from_version" = "$from_version" ]] &&
@@ -93,11 +106,25 @@ for scope_from in "${scopes_from[@]}"; do
 					then
 						has_expectation="true"
 
-						if ([[ "$expect_exit" == "$exit_success" ]] && [[ "$expect_exit" == "$code" ]]) || ([[ "$expect_exit" == "$exit_fail" ]] && [[ "$expect_exit" != "$code" ]]); then
+						if ([[ "$expect_exit" == "$exit_success" ]] && [[ "$expect_exit" == "$code" ]]) ||
+							([[ "$expect_exit" == "$exit_fail" ]] && [[ "$expect_exit" != "$code" ]]); then
 							echo "exit:   $success_emoji"
 
 							if [[ "$out" == *"$expect_str"* ]]; then
 								echo "status: $success_emoji"
+
+								if [[ "$expect_cmd" != "-" ]]; then
+									actual_version="@prisma/cli@$(cat "./out/$(echo "$expect_cmd" | sed -e 's/ /_/g').txt")"
+									echo "actual version: $actual_version"
+									if [[ "$expect_cmd_version" != "$actual_version" ]]; then
+										echo "version:   $expect_cmd_version != $actual_version $fail_emoji"
+										code=1
+									else
+										echo "version: $success_emoji"
+									fi
+								else
+									echo "version: n/a"
+								fi
 							else
 								echo "status: $fail_emoji"
 								code=1
