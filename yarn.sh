@@ -18,7 +18,7 @@ latest="@prisma/cli@2.0.0-beta.1"
 v_npx_local="npx prisma2"
 v_global="prisma2"
 
-global="-g"
+global="global"
 local=""
 
 exit_success=0
@@ -27,7 +27,7 @@ exit_fail=-1
 upgrade_error="has been renamed to"
 
 ## declare an array variable
-pm="npm i"
+pm="yarn"
 declare -a scopes_from=("$global" "")
 declare -a scopes_to=("$global" "")
 declare -a from_versions=(
@@ -55,8 +55,8 @@ for scope_from in "${scopes_from[@]}"; do
 	for scope_to in "${scopes_to[@]}"; do
 		for from_version in "${from_versions[@]}"; do
 			for to_version in "${to_versions[@]}"; do
-				a="$pm $scope_from $from_version"
-				b="$pm $scope_to $to_version"
+				a="$pm $scope_from add $from_version"
+				b="$pm $scope_to add $to_version"
 
 				log=$(echo "$a --- $b.txt" | sed -e 's/ /_/g' | sed -e 's/\//∕/g')
 				log="logs/$log"
@@ -68,10 +68,10 @@ for scope_from in "${scopes_from[@]}"; do
 
 				# cutting -d : -f 2 and -d , -f 1 will successfully parse old and new outputs of prisma2 -v
 				version_cmd="
-					(prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/prisma.txt) &&
-					(prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/prisma2.txt) &&
-					(npx prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/npx_prisma.txt) &&
-					(npx prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs > /out/npx_prisma2.txt)
+					((prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs) || true > /out/prisma.txt) &&
+					((prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs) || true > /out/prisma2.txt) &&
+					((npx prisma -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs) || true > /out/npx_prisma.txt) &&
+					((npx prisma2 -v | grep "^@prisma/cli" | cut -d : -f 2 | cut -d , -f 1 | xargs) || true > /out/npx_prisma2.txt)
 				"
 
 				set +e
